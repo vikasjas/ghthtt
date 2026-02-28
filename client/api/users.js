@@ -1,7 +1,7 @@
 
+
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import User from "../../server/models/User";
 
 // Mongoose connection cache for Vercel serverless
 const MONGODB_URI = process.env.MONGO_URI;
@@ -31,6 +31,12 @@ async function auth(req) {
 
 export default async function handler(req, res) {
   await dbConnect();
+  let User;
+  try {
+    User = (await import("../../server/models/User.js")).default;
+  } catch (err) {
+    return res.status(500).json({ message: "Failed to load User model", error: err.message });
+  }
   if (req.method === 'GET' && req.query.action === 'me') {
     // Get current user profile
     try {
