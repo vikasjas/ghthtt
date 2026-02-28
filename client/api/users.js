@@ -33,7 +33,7 @@ export default async function handler(req, res) {
   await dbConnect();
   let User;
   try {
-    User = (await import("../../server/models/User.js")).default;
+    User = (await import("../../server/models/User.mjs")).default;
   } catch (err) {
     return res.status(500).json({ message: "Failed to load User model", error: err.message });
   }
