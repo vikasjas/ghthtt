@@ -1,6 +1,22 @@
+
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import User from "../../server/models/User";
+
+// Mongoose connection cache for Vercel serverless
+const MONGODB_URI = process.env.MONGO_URI;
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+async function dbConnect() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
 
 async function auth(req) {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -14,7 +30,7 @@ async function auth(req) {
 }
 
 export default async function handler(req, res) {
-  await mongoose.connect(process.env.MONGO_URI);
+  await dbConnect();
   if (req.method === 'GET' && req.query.action === 'me') {
     // Get current user profile
     try {
