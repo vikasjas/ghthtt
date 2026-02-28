@@ -37,7 +37,7 @@ function App() {
         <Route path="/signup" element={<Signup onSignup={() => {}} />} />
         <Route path="/users" element={<Users />} />
         <Route path="/profile" element={token ? <Profile token={token} /> : <div>Please log in</div>} />
-        <Route path="/" element={<div><h1>Dating App</h1><p>Welcome to the dating app!</p></div>} />
+        <Route path="/" element={<Login onLogin={handleLogin} />} />
       </Routes>
     </Router>
   );
