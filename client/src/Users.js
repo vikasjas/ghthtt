@@ -10,7 +10,7 @@ function Users() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch('/api/user');
+        const res = await fetch('/api/users');
         const data = await res.json();
         if (res.ok) {
           setUsers(data);
