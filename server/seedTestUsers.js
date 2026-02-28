@@ -1,6 +1,6 @@
 // Script to create 15 test users in MongoDB
 import mongoose from 'mongoose';
-import User from './models/User.js';
+import User from './models/User.mjs';
 
 const mongoUri = process.env.MONGO_URI || 'mongodb+srv://v588721_db_user:AAqNEWNYXsL2Hx1H@date1.shosue8.mongodb.net/';
 
